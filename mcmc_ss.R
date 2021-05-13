@@ -61,7 +61,7 @@ for (i in 1:p) {
 # update beta, we use MH
 for (i in 1:p) {
     b.old <- b[i]
-    b.new <- rnorm(1, b.old, kernel.sd)            # try a normal kernel, cancels our by symmetry
+    b.new <- rnorm(1, b.old, kernel.sd)            # try a normal kernel, cancels out by symmetry
     
     # MH numerator
     b[i] <- b.new
@@ -87,13 +87,11 @@ W[ , iter] <- w
 
 
 # results take 1e3 - 1e4 (burn in of 1e3)
-pdf(file="./sampler/figures/chains.pdf", 12, 7)
 par(mfrow=c(2,4))
 plot(B[1, 1e3:1e4], type="l", ylab=expression(beta[1])); plot(density(B[1, 1e3:1e4]), main="")
 plot(B[2, 1e3:1e4], type="l", ylab=expression(beta[2])); plot(density(B[2, 1e3:1e4]), main="")
 plot(B[3, 1e3:1e4], type="l", ylab=expression(beta[3])); plot(density(B[3, 1e3:1e4]), main="")
 plot(B[4, 1e3:1e4], type="l", ylab=expression(beta[4])); plot(density(B[4, 1e3:1e4]), main="")
-dev.off()
 
 # posterior means
 apply(B[ , 1e3:1e4], 1, mean)
