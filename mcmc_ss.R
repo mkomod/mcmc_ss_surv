@@ -89,17 +89,43 @@ W[ , iter] <- w
 ) # timer
 
 
-# results take 1e3 - 1e4 (burn in of 1e3)
-par(mfrow=c(2,4))
-plot(B[1, 1e3:1e4], type="l", ylab=expression(beta[1])); plot(density(B[1, 1e3:1e4]), main="")
-plot(B[2, 1e3:1e4], type="l", ylab=expression(beta[2])); plot(density(B[2, 1e3:1e4]), main="")
-plot(B[3, 1e3:1e4], type="l", ylab=expression(beta[3])); plot(density(B[3, 1e3:1e4]), main="")
-plot(B[4, 1e3:1e4], type="l", ylab=expression(beta[4])); plot(density(B[4, 1e3:1e4]), main="")
+# diagnostics
+par(mfrow=c(4,4), mar=c(3, 3, 3, 3))
+for (i in 1:16) {
+    plot(B[i, 1e3:1e4], type="l", ylab=bquote(beta[.(i)]), xlab="")
+}
 
-plot(Z[1, 1e3:1e4], type="l", ylab=expression(beta[1])); hist(Z[1, 1e3:1e4], main="")
-plot(Z[2, 1e3:1e4], type="l", ylab=expression(beta[2])); hist(Z[2, 1e3:1e4], main="")
-plot(Z[3, 1e3:1e4], type="l", ylab=expression(beta[3])); hist(Z[3, 1e3:1e4], main="")
-plot(Z[4, 1e3:1e4], type="l", ylab=expression(beta[4])); hist(Z[4, 1e3:1e4], main="")
+par(mfrow=c(4,4), mar=c(3, 3, 3, 3))
+for (i in 1:16) {
+    plot(Z[i, 1e3:1e4], type="l", ylab=bquote(z[.(i)]), xlab="")
+}
+
+for(i in 1:16) {
+    acf(B[i, ])
+}
+
+# results take 1e3 - 1e4 (burn in of 1e3)
+par(mfrow=c(4,4), las=1, mar=c(0,0,0,0))
+for(i in 1:4) {
+    for (j in 1:4) {
+	if (i == j) {
+	    plot(density(B[i , 1e3:1e4]), xlab="", ylab="", main="", yaxt="n")
+	} else if (i < j) {
+	    if (j == i + 1) {
+	    plot(B[j, 1e3:1e4], B[i, 1e3:1e4], xlab="", ylab="", col=rgb(0, 0, 1, 0.01), pch=2,
+		 xaxt="n", las=1)
+	    } else if (j == i + 2) {
+	    plot(B[j, 1e3:1e4], B[i, 1e3:1e4], xlab="", ylab="", col=rgb(0, 0, 1, 0.01), pch=2,
+		 yaxt="n", las=1)
+	    } else {
+	    plot(B[j, 1e3:1e4], B[i, 1e3:1e4], xlab="", ylab="", col=rgb(0, 0, 1, 0.01), pch=2,
+		 yaxt="n", xaxt="n")
+	    }
+	} else {
+	    plot.new()
+	}
+    }
+}
 
 # posterior means
 apply(B[ , 1e3:1e4], 1, mean)
@@ -110,8 +136,4 @@ mean(W)
 apply(B[ , 1e3:1e4], 1, sd)
 apply(Z[ , 1e3:1e4], 1, sd)
 sd(W)
-
-
-for(i in 1:8)
-    acf(B[i, ])
 
