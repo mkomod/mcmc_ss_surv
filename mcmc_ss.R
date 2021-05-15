@@ -26,7 +26,7 @@ plot(xs, exp(ys))
 
 
 # Gibbs sampler
-lambda <- 0.01
+lambda <- 0.5
 kernel.sd <- 0.3
 
 # initial values
@@ -54,7 +54,10 @@ for (i in 1:p) {
     z[i] <- 1
     p1 <- log(pz[2]) + log_PL(X, b * z, Y_sorted, Y_failure)
 
-    z[i] <- sample(c(0, 1), 1, prob=c(p0/(p0+p1), p1/(p0+p1)))
+    prob0 <- sigmoid(p0 - p1)
+    prob1 <- sigmoid(p1 - p0)
+
+    z[i] <- sample(c(0, 1), 1, prob=c(prob0, prob1))
 }
 
 
