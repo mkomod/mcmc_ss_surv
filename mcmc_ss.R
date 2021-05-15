@@ -5,7 +5,7 @@ sourceCpp("./lpl.cpp")
 # test data
 set.seed(1)
 n <- 250; omega <- 1; censoring_lvl <- 0.2
-b <- c(4, 4, rep(0, 48)); p <- length(b)
+b <- c(0.5, 2, rep(0, 28)); p <- length(b)
 X <- matrix(rnorm(n * p), nrow=n)
 y <- runif(nrow(X))
 Y <- log(1 - y) / - (exp(X %*% b) * omega)
@@ -64,7 +64,7 @@ for (i in 1:p) {
 # update beta, we use MH
 for (i in 1:p) {
     b.old <- b[i]
-    b.new <- rnorm(1, b.old, kernel.sd)            # try a normal kernel, cancels out by symmetry
+    b.new <- rnorm(1, b.old, kernel.sd * 10^(1 - z[i])) 	# cancels out by symmetry
     
     # MH numerator
     b[i] <- b.new
@@ -110,4 +110,8 @@ mean(W)
 apply(B[ , 1e3:1e4], 1, sd)
 apply(Z[ , 1e3:1e4], 1, sd)
 sd(W)
+
+
+for(i in 1:8)
+    acf(B[i, ])
 
