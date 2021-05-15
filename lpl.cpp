@@ -31,3 +31,15 @@ double log_Laplace(double beta, double lambda)
 {
     return log(lambda) + log(0.5) - lambda * std::abs(beta);
 }
+
+// [[Rcpp::export]] 
+double sigmoid(double x)
+{
+    double res = 0.0;
+    if (x >= 0) {
+	res = 1.0 / (1.0 + exp(-x));	
+    } else {
+	res = exp(x) / (1.0 + exp(x));
+    }
+    return res;
+}
