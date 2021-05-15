@@ -90,13 +90,11 @@ W[ , iter] <- w
 
 
 # results take 1e3 - 1e4 (burn in of 1e3)
-pdf("./sampler/figures/chains.pdf", width=12, height=8)
 par(mfrow=c(2,4))
 plot(B[1, 1e3:1e4], type="l", ylab=expression(beta[1])); plot(density(B[1, 1e3:1e4]), main="")
 plot(B[2, 1e3:1e4], type="l", ylab=expression(beta[2])); plot(density(B[2, 1e3:1e4]), main="")
 plot(B[3, 1e3:1e4], type="l", ylab=expression(beta[3])); plot(density(B[3, 1e3:1e4]), main="")
 plot(B[4, 1e3:1e4], type="l", ylab=expression(beta[4])); plot(density(B[4, 1e3:1e4]), main="")
-dev.off()
 
 plot(Z[1, 1e3:1e4], type="l", ylab=expression(beta[1])); hist(Z[1, 1e3:1e4], main="")
 plot(Z[2, 1e3:1e4], type="l", ylab=expression(beta[2])); hist(Z[2, 1e3:1e4], main="")
@@ -104,7 +102,7 @@ plot(Z[3, 1e3:1e4], type="l", ylab=expression(beta[3])); hist(Z[3, 1e3:1e4], mai
 plot(Z[4, 1e3:1e4], type="l", ylab=expression(beta[4])); hist(Z[4, 1e3:1e4], main="")
 
 # posterior means
-round(apply(B[ , 1e3:1e4], 1, mean), 3)
+apply(B[ , 1e3:1e4], 1, mean)
 apply(Z[ , 1e3:1e4], 1, mean)
 mean(W)
 
