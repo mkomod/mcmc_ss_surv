@@ -18,3 +18,8 @@ Summary
  - Sampling requires a Metropolis-Hastings sampler for beta
 
 
+## Example
+
+Included is an example on simulated data, with 40% cenosred data. We ran our smaple for 10,000 iterations
+
+![densities](./figures/grid.pdf)
